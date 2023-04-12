@@ -29,16 +29,16 @@ pipeline {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     //sh "pip install -r ./requirements.txt"
-                    sh "pip install pandas==1.3.5"
-                    sh "pip install dataiku-api-client==11.4.0"
-                    sh "pip install http://localhost:12110/public/packages/dataiku-internal-client.tar.gz"
-                    sh "pip install pytest"
+                    //sh "pip install pandas==1.3.5"
+                    //sh "pip install dataiku-api-client==11.4.0"
+                    //sh "pip install http://localhost:12110/public/packages/dataiku-internal-client.tar.gz"
+                    //sh "pip install pytest"
                 }
             }
         }
         stage('PROJECT_VALIDATION') {
             steps {
-                withPythonEnv('python') {
+                withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pytest -s 1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
