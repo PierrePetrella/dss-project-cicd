@@ -39,6 +39,8 @@ pipeline {
         stage('PROJECT_VALIDATION') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
+                    sh "pwd"
+                    sh "ls --all"
                     sh "pytest -s 1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
