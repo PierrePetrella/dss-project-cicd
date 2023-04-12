@@ -1,14 +1,17 @@
 pipeline {
     agent any
     environment {
-        bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}"
+        bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}",
+        DSS_PROJECT = "DKU_CHURN",
+        DESIGN_URL = "",
+
     }
     stages {
         stage('PREPARE'){
             steps {
                 cleanWs()
                 sh 'echo ${bundle_name}'
-                git credentialsId: "git_hub_ssh", url: "git@github.com:XYZ/dss_pipeline.git"
+                git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
                 sh "cat requirements.txt"
                 withPythonEnv('python3') {
                     sh "pip install -U pip"
