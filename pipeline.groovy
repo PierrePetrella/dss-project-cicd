@@ -26,6 +26,8 @@ pipeline {
                 sh 'echo ${bundle_name}'
                 //sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
+
+                sh "git clone ${GIT_REPO}"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     //sh "pip install -r ./requirements.txt"
@@ -39,15 +41,13 @@ pipeline {
         stage('PROJECT_VALIDATION') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-                    sh "pwd"
-                    sh "ls --all"
-                    sh "pytest -s 1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
+                    sh "pytest -s dss-project-pipeline/1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
         }
         stage('PACKAGE_BUNDLE') {
             steps {
-                withPythonEnv('python') {
+                withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "python 2_package_bundle/run_bundling.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name}"
                 }
                 sh "echo DSS project bundle created and downloaded in local workspace"
