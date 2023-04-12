@@ -2,34 +2,34 @@ pipeline {
     agent any
     environment {
         bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}"
-        DSS_PROJECT = "DKU_CHURN"
-        DESIGN_URL = "http://localost:12110"
-        AUTO_PREPROD_ID = "infra-dev"
-        AUTO_PREPROD_URL = "http://localhost:13110"
-        AUTO_PROD_ID = "infra-prod"
-        AUTO_PROD_URL = "http://localhost:13115"
+        //DSS_PROJECT = "DKU_CHURN"
+        //DESIGN_URL = "http://localost:12110"
+        //AUTO_PREPROD_ID = "infra-dev"
+        //AUTO_PREPROD_URL = "http://localhost:13110"
+        //AUTO_PROD_ID = "infra-prod"
+        //AUTO_PROD_URL = "http://localhost:13115"
     }
     stages {
-        stage('test') {
-            agent {
-                docker {
-                    image 'python/3.7.16-alpine3.17'
-                }
-            }
-            steps {
-                sh 'virtualenv venv && . venv/bin/activate && pip install -r requirements.txt && python 1 + 1'
-            }
-        }
+        //stage('test') {
+        //    agent {
+        //       docker {
+        //            image 'python/3.7.16-alpine3.17'
+        //        }
+        //    }
+        //    steps {
+        //        sh 'virtualenv venv && . venv/bin/activate && pip install -r requirements.txt && python 1 + 1'
+        //    }
+        //}
         stage('PREPARE'){
             steps {
                 cleanWs()
                 sh 'echo ${bundle_name}'
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
-                //sh "cat requirements.txt"
-                //withPythonEnv('python3') {
-                //    sh "pip install -U pip"
-                //    sh "pip install -r ./requirements.txt"
-                //}
+                sh "cat requirements.txt"
+                withPythonEnv('python3') {
+                    sh "pip install -U pip"
+                    sh "pip install -r ./requirements.txt"
+                }
             }
         }
         stage('PROJECT_VALIDATION') {
