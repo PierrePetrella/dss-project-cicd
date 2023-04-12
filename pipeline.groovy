@@ -16,10 +16,10 @@ pipeline {
                 sh 'echo ${bundle_name}'
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
                 //sh "cat requirements.txt"
-                withPythonEnv('python3') {
-                    sh "pip install -U pip"
-                    sh "pip install -r ./requirements.txt"
-                }
+                //withPythonEnv('python3') {
+                //    sh "pip install -U pip"
+                //    sh "pip install -r ./requirements.txt"
+                //}
             }
         }
         stage('PROJECT_VALIDATION') {
