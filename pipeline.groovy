@@ -28,12 +28,13 @@ pipeline {
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
 
                 sh "git clone ${GIT_REPO}"
+                sh "ls -la"
                 sh "cd dss-project-cicd"
                 sh "ls -la"
                 //sh "cat requirements.txt"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
-                    sh "pip install -r requirements.txt"
+                    sh "cd dss-project-cicd && pip install -r requirements.txt"
                     //sh "pip install pandas==1.3.5"
                     //sh "pip install dataiku-api-client==11.4.0"
                     //sh "pip install http://localhost:12110/public/packages/dataiku-internal-client.tar.gz"
