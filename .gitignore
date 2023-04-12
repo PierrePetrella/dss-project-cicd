@@ -1,3 +1,10 @@
+# jenkins
+docker_jenkins/jenkins_configuration/
+
+#artifactory
+docker_jenkins/artifactory-oss*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
