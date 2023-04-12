@@ -24,6 +24,8 @@ pipeline {
             steps {
                 cleanWs()
                 sh 'echo ${bundle_name}'
+                sh 'ls -la'
+                sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
                 sh "cat requirements.txt"
                 withPythonEnv('python3') {
