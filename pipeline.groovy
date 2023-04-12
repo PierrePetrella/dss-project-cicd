@@ -28,6 +28,7 @@ pipeline {
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
 
                 sh "git clone ${GIT_REPO}"
+                sh "cd dss-project-cicd"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     sh "pip install -r requirements.txt"
