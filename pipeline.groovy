@@ -8,15 +8,13 @@ pipeline {
         AUTO_PREPROD_URL = "http://localhost:13110"
         AUTO_PROD_ID = "infra-prod"
         AUTO_PROD_URL = "http://localhost:13115"
-
-
     }
     stages {
         stage('PREPARE'){
             steps {
                 cleanWs()
                 sh 'echo ${bundle_name}'
-                git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
+                //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
                 sh "cat requirements.txt"
                 withPythonEnv('python3') {
                     sh "pip install -U pip"
