@@ -10,6 +10,17 @@ pipeline {
         AUTO_PROD_URL = "http://localhost:13115"
     }
     stages {
+        stage('test') {
+            agent {
+                docker {
+                    image 'python/3.7.16-alpine3.17'
+                }
+            }
+            steps {
+                sh 'virtualenv venv && . venv/bin/activate && pip install -r requirements.txt && python 1 + 1'
+            }
+        }
+
         stage('PREPARE'){
             steps {
                 cleanWs()
