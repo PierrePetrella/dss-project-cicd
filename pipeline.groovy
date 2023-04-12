@@ -26,7 +26,6 @@ pipeline {
                 sh 'echo ${bundle_name}'
                 //sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
-                sh "cat requirements.txt"
                 withPythonEnv('python') {
                     sh "pip install -U pip"
                     sh "pip install -r ./requirements.txt"
