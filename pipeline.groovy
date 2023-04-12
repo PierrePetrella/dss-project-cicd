@@ -29,6 +29,8 @@ pipeline {
 
                 sh "git clone ${GIT_REPO}"
                 sh "cd dss-project-cicd"
+                sh "ls -la"
+                //sh "cat requirements.txt"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     sh "pip install -r requirements.txt"
