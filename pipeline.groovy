@@ -1,9 +1,14 @@
 pipeline {
     agent any
     environment {
-        bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}",
-        DSS_PROJECT = "DKU_CHURN",
-        DESIGN_URL = "",
+        bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}"
+        DSS_PROJECT = "DKU_CHURN"
+        DESIGN_URL = "http://localost:12110"
+        AUTO_PREPROD_ID = "infra-dev"
+        AUTO_PREPROD_URL = "http://localhost:13110"
+        AUTO_PROD_ID = "infra-prod"
+        AUTO_PROD_URL = "http://localhost:13115"
+
 
     }
     stages {
