@@ -24,11 +24,10 @@ pipeline {
             steps {
                 cleanWs()
                 sh 'echo ${bundle_name}'
-                sh 'ls -la'
-                sh "cat requirements.txt"
+                //sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
                 sh "cat requirements.txt"
-                withPythonEnv('python3') {
+                withPythonEnv('python') {
                     sh "pip install -U pip"
                     sh "pip install -r ./requirements.txt"
                 }
@@ -36,14 +35,14 @@ pipeline {
         }
         stage('PROJECT_VALIDATION') {
             steps {
-                withPythonEnv('python3') {
+                withPythonEnv('python') {
                     sh "pytest -s 1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
         }
         stage('PACKAGE_BUNDLE') {
             steps {
-                withPythonEnv('python3') {
+                withPythonEnv('python') {
                     sh "python 2_package_bundle/run_bundling.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name}"
                 }
                 sh "echo DSS project bundle created and downloaded in local workspace"
