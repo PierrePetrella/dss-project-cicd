@@ -26,7 +26,7 @@ pipeline {
                 sh 'echo ${bundle_name}'
                 //sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
-                withPythonEnv('python3') {
+                withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     //sh "pip install -r ./requirements.txt"
                     sh "pip install pandas==1.3.5"
