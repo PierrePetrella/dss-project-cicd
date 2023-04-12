@@ -23,6 +23,7 @@ pipeline {
         stage('PREPARE'){
             steps {
                 cleanWs()
+                sh "which python"
                 sh 'echo ${bundle_name}'
                 //sh "cat requirements.txt"
                 //git credentialsId: "git_hub_ssh", url: "git@github.com:PierrePetrella/dss-project-cicd.git"
@@ -30,7 +31,7 @@ pipeline {
                 sh "git clone ${GIT_REPO}"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
-                    //sh "pip install -r ./requirements.txt"
+                    sh "pip install -r requirements.txt"
                     //sh "pip install pandas==1.3.5"
                     //sh "pip install dataiku-api-client==11.4.0"
                     //sh "pip install http://localhost:12110/public/packages/dataiku-internal-client.tar.gz"
