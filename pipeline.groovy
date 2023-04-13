@@ -48,16 +48,16 @@ pipeline {
                 }
                 sh "echo DSS project bundle created and downloaded in local workspace"
                 sh "ls -la"
-                script {
-                    def server = Artifactory.server 'artifactory'
-                    def uploadSpec = """{
-                        "files": [{
-                          "pattern": "*.zip",
-                          "target": "generic-local/dss_bundle/"
-                        }]
-                    }"""
-                    def buildInfo = server.upload spec: uploadSpec, failNoOp: true
-                }
+                //script {
+                //    def server = Artifactory.server 'artifactory'
+                //    def uploadSpec = """{
+                //        "files": [{
+                //          "pattern": "*.zip",
+                //          "target": "generic-local/dss_bundle/"
+                //        }]
+                //    }"""
+                //    def buildInfo = server.upload spec: uploadSpec, failNoOp: true
+                //}
             }
         }
         stage('PREPROD_TEST') {
