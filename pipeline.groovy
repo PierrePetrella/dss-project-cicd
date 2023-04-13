@@ -45,6 +45,7 @@ pipeline {
         stage('PROJECT_VALIDATION') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
+                    sh "pip install -r dss-project-cicd/requirements.txt"
                     sh "pytest -s dss-project-cicd/1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
