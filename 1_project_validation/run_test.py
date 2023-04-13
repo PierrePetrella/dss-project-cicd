@@ -1,7 +1,13 @@
 import dataikuapi
 import radon.raw as cc_raw
 import radon.visitors as cc_visitors
+import dataiku
 
+def test_dataiku_api(params):
+    dataiku.set_remote_dss(params["host"], params["api"])
+    client = dataiku.api_client()
+    project = client.get_project(params["project"])
+    scenarios = project.list_scenarios()
 
 def test_scenario(params):
     client = dataikuapi.DSSClient(params["host"], params["api"])
