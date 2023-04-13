@@ -2,12 +2,7 @@ pipeline {
     agent any
     environment {
         bundle_name = "${sh(returnStdout: true, script: 'echo "bundle_`date +%Y-%m-%d_%H-%m-%S`"').trim()}"
-        //DSS_PROJECT = "DKU_CHURN"
-        //DESIGN_URL = "http://localost:12110"
-        //AUTO_PREPROD_ID = "infra-dev"
-        //AUTO_PREPROD_URL = "http://localhost:13110"
-        //AUTO_PROD_ID = "infra-prod"
-        //AUTO_PROD_URL = "http://localhost:13115"
+        repo_folder_name = "dss-project-cicd"
     }
     stages {
         //stage('test') {
@@ -34,7 +29,7 @@ pipeline {
                 //sh "cat requirements.txt"
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
-                    sh "pip install -r dss-project-cicd/requirements.txt"
+                    sh "pip install -r ${repo_folder_name}/requirements.txt"
                     sh "pip freeze"
                 }
             }
@@ -42,14 +37,14 @@ pipeline {
         stage('PROJECT_VALIDATION') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-                    sh "pytest -s dss-project-cicd/1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
+                    sh "pytest -s ${repo_folder_name}/1_project_validation/run_test.py -o junit_family=xunit1 --host='${DESIGN_URL}' --api='${DESIGN_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PROJECT_VALIDATION.xml"
                 }
             }
         }
         stage('PACKAGE_BUNDLE') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-                    sh "python 2_package_bundle/run_bundling.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name}"
+                    sh "python ${repo_folder_name}/2_package_bundle/run_bundling.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name}"
                 }
                 sh "echo DSS project bundle created and downloaded in local workspace"
                 sh "ls -la"
@@ -68,15 +63,15 @@ pipeline {
         stage('PREPROD_TEST') {
             steps {
                 withPythonEnv('python3') {
-                    sh "python 3_preprod_test/import_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name} '${AUTO_PREPROD_ID}'"
-                    sh "pytest -s 3_preprod_test/run_test.py -o junit_family=xunit1 --host='${AUTO_PREPROD_URL}' --api='${AUTO_PREPROD_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PREPROD_TEST.xml"
+                    sh "python ${repo_folder_name}/3_preprod_test/import_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name} '${AUTO_PREPROD_ID}'"
+                    sh "pytest -s ${repo_folder_name}/3_preprod_test/run_test.py -o junit_family=xunit1 --host='${AUTO_PREPROD_URL}' --api='${AUTO_PREPROD_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PREPROD_TEST.xml"
                 }                
             }
         }
         stage('DEPLOY_TO_PROD') {
             steps {
                 withPythonEnv('python3') {
-                    sh "python 4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
+                    sh "python ${repo_folder_name}/4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
                 }
             }
         }
