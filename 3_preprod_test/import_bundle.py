@@ -1,14 +1,18 @@
 import dataikuapi
 import sys
 
-host = sys.argv[1]
-apiKey = sys.argv[2]
-project = sys.argv[3]
-bundle_id = sys.argv[4]
-infra = sys.argv[5]
+design_host = sys.argv[1]
+design_apiKey = sys.argv[2]
+deployer_host = sys.argv[3]
+deployer_apiKey = sys.argv[4]
+project = sys.argv[5]
+bundle_id = sys.argv[6]
+infra = sys.argv[7]
 
-client = dataikuapi.DSSClient(host,apiKey )
-pdpl = client.get_projectdeployer()
+client = dataikuapi.DSSClient(design_host,design_apiKey)
+
+deployer_client = dataikuapi.DSSClient(deployer_host,deployer_apiKey)
+pdpl = deployer_client.get_projectdeployer()
 
 # Create or update a deployment
 print("Searching for existing deployment of '{}' on infra '{}'".format( project , infra))

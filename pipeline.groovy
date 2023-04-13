@@ -63,17 +63,17 @@ pipeline {
         stage('PREPROD_TEST') {
             steps {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-                    sh "python ${repo_folder_name}/3_preprod_test/import_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' ${bundle_name} '${AUTO_PREPROD_ID}'"
+                    sh "python ${repo_folder_name}/3_preprod_test/import_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DEPLOYER_URL}' '${DEPLOYER_API_KEY}' '${DSS_PROJECT}' ${bundle_name} '${AUTO_PREPROD_ID}'"
                     sh "pytest -s ${repo_folder_name}/3_preprod_test/run_test.py -o junit_family=xunit1 --host='${AUTO_PREPROD_URL}' --api='${AUTO_PREPROD_API_KEY}' --project='${DSS_PROJECT}' --junitxml=reports/PREPROD_TEST.xml"
                 }                
             }
         }
         stage('DEPLOY_TO_PROD') {
-            steps {
-                withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-                    sh "python ${repo_folder_name}/4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
-                }
-            }
+            //steps {
+            //    withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
+            //        sh "python ${repo_folder_name}/4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
+            //    }
+            //}
         }
     }
     post{
