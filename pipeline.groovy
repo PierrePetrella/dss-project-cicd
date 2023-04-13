@@ -69,11 +69,11 @@ pipeline {
             }
         }
         stage('DEPLOY_TO_PROD') {
-            //steps {
-            //    withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
-            //        sh "python ${repo_folder_name}/4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
-            //    }
-            //}
+            steps {
+                withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
+                    sh "python ${repo_folder_name}/4_deploy_prod/deploy_bundle.py '${DESIGN_URL}' '${DESIGN_API_KEY}' '${DSS_PROJECT}' '${bundle_name}' '${AUTO_PROD_ID}' ${AUTO_PROD_URL} ${AUTO_PROD_API_KEY}"
+                }
+            }
         }
     }
     post{
