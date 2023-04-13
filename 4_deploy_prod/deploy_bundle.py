@@ -14,6 +14,7 @@ failed_deployment = False
 
 # Deploy the new bundle
 print("Searching for existing deployment of '{}' on infra '{}'".format( project , infra))
+
 pdpl_client = dataikuapi.DSSClient(pdpl_host, pdpl_apiKey)
 pdpl = pdpl_client.get_projectdeployer()
 pdpl_proj = pdpl.get_project(project)
@@ -26,12 +27,12 @@ if deployments :
     depl_settings = deployment.get_settings()
     previous_bundle_id = depl_settings.get_raw()['bundleId']
     depl_settings.get_raw()['bundleId'] = bundle_id
-    depl_settings.save()
+    depl_settings.save(ignore_warnings=True) # NOTE : ignore_warnings to override the Govern warning.)
 else :
     #create
     print("Need to create a new deployment (no rollback possible)")
     dp_id = pdpl_proj.id + '-on-' + infra
-    deployment = pdpl.create_deployment(dp_id, pdpl_proj.id, infra, bundle_id)
+    deployment = pdpl.create_deployment(dp_id, pdpl_proj.id, infra, bundle_id, ignore_warnings=True) # NOTE : ignore_warnings to override the Govern warning.
     print("New deployment created as {}".format(deployment.id))
 
 print("Deployment ready to update => {}".format(deployment.id))

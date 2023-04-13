@@ -9,7 +9,7 @@ project_name = sys.argv[5]
 bundle_id = sys.argv[6]
 infra = sys.argv[7]
 
-client = dataikuapi.DSSClient(design_host,design_apiKey)
+#client = dataikuapi.DSSClient(design_host,design_apiKey) # Not Needed
 
 deployer_client = dataikuapi.DSSClient(deployer_host,deployer_apiKey)
 pdpl = deployer_client.get_projectdeployer()
@@ -26,7 +26,7 @@ if deployments :
     print("Using existing deployment '{}'".format(deployment.id))
     depl_settings = deployment.get_settings()
     depl_settings.get_raw()['bundleId'] = bundle_id
-    depl_settings.save()
+    depl_settings.save(ignore_warnings=True) # ignore_warnings to override the Govern warning.
 else :
     #create
     print("Need to create a new deployment")
