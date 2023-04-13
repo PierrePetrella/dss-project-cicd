@@ -5,7 +5,7 @@ design_host = sys.argv[1]
 design_apiKey = sys.argv[2]
 deployer_host = sys.argv[3]
 deployer_apiKey = sys.argv[4]
-project = sys.argv[5]
+project_name = sys.argv[5]
 bundle_id = sys.argv[6]
 infra = sys.argv[7]
 
@@ -15,13 +15,13 @@ deployer_client = dataikuapi.DSSClient(deployer_host,deployer_apiKey)
 pdpl = deployer_client.get_projectdeployer()
 
 # Create or update a deployment
-print("Searching for existing deployment of '{}' on infra '{}'".format( project , infra))
-pdpl_proj = pdpl.get_project(project)
-deployments = pdpl_proj.get_status().get_deployments(infra)
+print("Searching for existing deployment of '{}' on infra '{}'".format( project_name , infra))
+pdpl_proj = pdpl.get_project(project_name)
 
+deployments = pdpl_proj.get_status().get_deployments(infra) # Does not work if no bundles have been pushed to the deployer.
 
 if deployments :
-    #update
+    #Update
     deployment = deployments[0]
     print("Using existing deployment '{}'".format(deployment.id))
     depl_settings = deployment.get_settings()
@@ -31,7 +31,7 @@ else :
     #create
     print("Need to create a new deployment")
     dp_id = pdpl_proj.id + '-on-' + infra
-    deployment = pdpl.create_deployment(dp_id, pdpl_proj.id, infra, bundle_id)
+    deployment = pdpl.create_deployment(dp_id, pdpl_proj.id, infra, bundle_id,  ignore_warnings=True) # ignore_warnings to override the Govern warning.
     print("New deployment created as {}".format(deployment.id))
 
 print("Deployment ready to update => {}".format(deployment.id))
