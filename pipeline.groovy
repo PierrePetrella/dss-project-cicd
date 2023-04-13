@@ -35,10 +35,7 @@ pipeline {
                 withPythonEnv('/Users/pierrepetrella/.pyenv/shims/python') {
                     sh "pip install -U pip"
                     sh "pip install -r dss-project-cicd/requirements.txt"
-                    //sh "pip install pandas==1.3.5"
-                    //sh "pip install dataiku-api-client==11.4.0"
-                    //sh "pip install http://localhost:12110/public/packages/dataiku-internal-client.tar.gz"
-                    //sh "pip install pytest"
+                    sh "pip freeze"
                 }
             }
         }
