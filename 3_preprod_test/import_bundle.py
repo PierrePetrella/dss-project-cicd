@@ -19,6 +19,7 @@ print("Searching for existing deployment of '{}' on infra '{}'".format( project 
 pdpl_proj = pdpl.get_project(project)
 deployments = pdpl_proj.get_status().get_deployments(infra)
 
+
 if deployments :
     #update
     deployment = deployments[0]
